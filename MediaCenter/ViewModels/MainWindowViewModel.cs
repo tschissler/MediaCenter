@@ -95,15 +95,22 @@ namespace MediaCenter.ViewModels
 
         private void ReadAllDirectories(string path)
         {
-            if (new DirectoryInfo(path).GetFiles("*.jpg").Length > 0)
+            try
             {
-                AllDirectories.Add(path);
-            }
+                if (new DirectoryInfo(path).GetFiles("*.jpg").Length > 0)
+                {
+                    AllDirectories.Add(path);
+                }
 
-            var directories = new DirectoryInfo(path).GetDirectories();
-            foreach (var directory in directories)
+                var directories = new DirectoryInfo(path).GetDirectories();
+                foreach (var directory in directories)
+                {
+                    ReadAllDirectories(directory.FullName);
+                }
+            }
+            catch (Exception e)
             {
-                ReadAllDirectories(directory.FullName);
+                Console.WriteLine($"Error while reading pictures from {path}");
             }
         }
 
