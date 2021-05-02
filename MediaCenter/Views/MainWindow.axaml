@@ -6,12 +6,42 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MediaCenter.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="MediaCenter">
+        Title="MediaCenter"
+        Background="Black">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<!--<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>-->
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-	
+	<!--<UserControl.Resources>
+		<Bitmap x:key="Play">/Assets/Media-Play.png</Bitmap>
+		<Bitmap x:key="Pause">/Assets/Media-Pause.png</Bitmap>
+	</UserControl.Resources>-->
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="80"></RowDefinition>
+			<RowDefinition></RowDefinition>
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0"
+		            Orientation="Horizontal"
+		            Background="Gray">
+			<Button Width="160" Command="{Binding StartSlideShow}">
+				<Panel>
+					<Image Source="/Assets/Media-Play.png" IsVisible="{Binding !IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/Media-Pause.png" IsVisible="{Binding IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+				</Panel>
+			</Button>
+			<Label Foreground="Silver">Anzeigedauer(ms): </Label>
+			<Slider Width="300" 
+					Minimum="500" 
+					Maximum="10000"
+					Foreground="Silver"
+					Value="{Binding IntervalMilliSec}"></Slider>
+		</StackPanel>
+		<Image
+			Grid.Row="1"
+			Source="{Binding CurrentImage}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+	</Grid>
 </Window>

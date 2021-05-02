@@ -1,10 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using MediaCenter.ViewModels;
 
 namespace MediaCenter.Views
 {
-    public class MainWindow : Window
+    public class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         public MainWindow()
         {
@@ -16,6 +18,7 @@ namespace MediaCenter.Views
 
         private void InitializeComponent()
         {
+            this.DataContext = new MainWindowViewModel(this);
             AvaloniaXamlLoader.Load(this);
         }
     }

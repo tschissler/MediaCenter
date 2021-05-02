@@ -9,9 +9,19 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Media-Pause.png" />
+    <None Remove="Assets\Media-Play.png" />
+    <None Remove="Assets\Test.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.0" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Test.jpg">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </AvaloniaResource>
   </ItemGroup>
 </Project>
