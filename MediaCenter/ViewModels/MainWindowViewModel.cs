@@ -16,6 +16,8 @@ namespace MediaCenter.ViewModels
         private bool isRunning;
         private Window parentWindow;
         private double commandBarOpacity;
+        private Random rnd = new Random();
+
         public Bitmap CurrentImage
         {
             get => currentImage;
@@ -66,7 +68,6 @@ namespace MediaCenter.ViewModels
             Timer.Enabled = true;
             Timer.Elapsed += Timer_Elapsed;
             Timer.Stop();
-            //CurrentImage = new Bitmap(@"C:\Users\ThomasSchissler\OneDrive - agilemax\Pictures\20201016_080106543_iOS.jpg");
         }
 
         public async void StartSlideShow()
@@ -136,16 +137,15 @@ namespace MediaCenter.ViewModels
         private void GetRandomImage()
         {
             Timer.Stop();
-            var directoryIndex = new Random(DateTime.Now.Millisecond).Next(AllDirectories.Count-1);
+            var directoryIndex = rnd.Next(AllDirectories.Count-1);
             var files = new DirectoryInfo(AllDirectories[directoryIndex]).GetFiles("*.jpg");
             while (files.Length <= 1)
             {
-                directoryIndex = new Random(DateTime.Now.Millisecond).Next(AllDirectories.Count - 1);
+                directoryIndex = rnd.Next(AllDirectories.Count - 1);
                 files = new DirectoryInfo(AllDirectories[directoryIndex]).GetFiles("*.jpg");
             }
             var filesIndex = new Random(DateTime.Now.Millisecond).Next(files.Length-1);
             CurrentImage = new Bitmap(files[filesIndex].FullName);
-            //CurrentImage = new Bitmap(@"C:\Users\ThomasSchissler\OneDrive - agilemax\Pictures\20201016_080106543_iOS.jpg");
             Timer.Start();
         }
     }

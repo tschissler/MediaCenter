@@ -37,7 +37,7 @@
 			<Label Foreground="Silver">Anzeigedauer(ms): </Label>
 			<Slider Width="300" 
 					Minimum="500" 
-					Maximum="10000"
+					Maximum="20000"
 					Foreground="Silver"
 					Value="{Binding IntervalMilliSec}"></Slider>
 		</StackPanel>
