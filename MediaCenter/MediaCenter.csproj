@@ -9,6 +9,8 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\FullScreen-end.png" />
+    <None Remove="Assets\FullScreen-start.png" />
     <None Remove="Assets\Media-Pause.png" />
     <None Remove="Assets\Media-Play.png" />
     <None Remove="Assets\Test.jpg" />

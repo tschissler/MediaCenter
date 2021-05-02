@@ -14,6 +14,7 @@ namespace MediaCenter.ViewModels
         private Bitmap currentImage;
         private int intervalMilliSec;
         private bool isRunning;
+        private bool isFullScreen;
         private Window parentWindow;
         private double commandBarOpacity;
         private Random rnd = new Random();
@@ -34,6 +35,12 @@ namespace MediaCenter.ViewModels
         {
             get => isRunning;
             set => this.RaiseAndSetIfChanged(ref isRunning, value);
+        }
+
+        public bool IsFullScreen
+        {
+            get => isFullScreen;
+            set => this.RaiseAndSetIfChanged(ref isFullScreen, value);
         }
 
         public string ImagesRootPath
@@ -105,6 +112,21 @@ namespace MediaCenter.ViewModels
             else
             {
                 CommandBarOpacity = 0.8;
+            }
+        }
+
+        public void ToggleFullScreen()
+        {
+            if (IsFullScreen)
+            {
+                parentWindow.WindowState = WindowState.Normal;
+                IsFullScreen = false;
+            }
+            else
+            {
+                parentWindow.WindowState = WindowState.Maximized;
+                parentWindow.WindowState = WindowState.FullScreen;
+                IsFullScreen = true;
             }
         }
 

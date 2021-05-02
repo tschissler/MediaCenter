@@ -40,6 +40,12 @@
 					Maximum="20000"
 					Foreground="Silver"
 					Value="{Binding IntervalMilliSec}"></Slider>
+			<Button Width="160" Command="{Binding ToggleFullScreen}">
+				<Panel>
+					<Image Source="/Assets/FullScreen-start.png" IsVisible="{Binding !IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/FullScreen-end.png" IsVisible="{Binding IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+				</Panel>
+			</Button>
 		</StackPanel>
 		<Button
 			Command="{Binding ToggleCommandBar}"
