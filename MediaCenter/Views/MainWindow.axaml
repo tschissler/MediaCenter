@@ -19,12 +19,15 @@
 	</UserControl.Resources>-->
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="80"></RowDefinition>
-			<RowDefinition></RowDefinition>
+			<RowDefinition ></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0"
+		<StackPanel Height="80"
+		            VerticalAlignment="Top"
+		            HorizontalAlignment="Stretch"
 		            Orientation="Horizontal"
-		            Background="Gray">
+		            Background="Gray"
+		            ZIndex="999"
+		            Opacity="{Binding CommandBarOpacity}">
 			<Button Width="160" Command="{Binding StartSlideShow}">
 				<Panel>
 					<Image Source="/Assets/Media-Play.png" IsVisible="{Binding !IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -38,10 +41,12 @@
 					Foreground="Silver"
 					Value="{Binding IntervalMilliSec}"></Slider>
 		</StackPanel>
-		<Image
-			Grid.Row="1"
-			Source="{Binding CurrentImage}"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
+		<Button
+			Command="{Binding ToggleCommandBar}"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			ZIndex="99">
+			<Image Source="{Binding CurrentImage}"/>
+		</Button>
 	</Grid>
 </Window>

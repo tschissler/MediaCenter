@@ -15,11 +15,17 @@ namespace MediaCenter.ViewModels
         private int intervalMilliSec;
         private bool isRunning;
         private Window parentWindow;
-
+        private double commandBarOpacity;
         public Bitmap CurrentImage
         {
             get => currentImage;
             set => this.RaiseAndSetIfChanged(ref currentImage, value);
+        }
+
+        public double CommandBarOpacity
+        {
+            get => commandBarOpacity;
+            set => this.RaiseAndSetIfChanged(ref commandBarOpacity, value);
         }
 
         public bool IsRunning
@@ -52,6 +58,7 @@ namespace MediaCenter.ViewModels
         public MainWindowViewModel(Window parentWindow)
         {
             this.parentWindow = parentWindow;
+            commandBarOpacity = 0.8;
             intervalMilliSec = 2000;
             AllDirectories = new List<string>();
             Timer = new Timer(IntervalMilliSec);
@@ -85,6 +92,18 @@ namespace MediaCenter.ViewModels
             {
                 Timer.Stop();
                 IsRunning = false;
+            }
+        }
+
+        public void ToggleCommandBar()
+        {
+            if (CommandBarOpacity > 0)
+            {
+                CommandBarOpacity = 0;
+            }
+            else
+            {
+                CommandBarOpacity = 0.8;
             }
         }
 
