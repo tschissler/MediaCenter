@@ -162,7 +162,7 @@ namespace MediaCenter.ViewModels
                     //musicStream = Bass.CreateStream("test.mp3");
                     musicStream = Bass.CreateStream("https://swr-edge-2034-dus-lg-cdn.cast.addradio.de/swr/swr1/bw/aac/96/stream.aac",
                         0,
-                        BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree, 
+                        BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree | BassFlags.AacStereo, 
                         (buffer, length, user) => { },
                         new IntPtr(r)
                     );
