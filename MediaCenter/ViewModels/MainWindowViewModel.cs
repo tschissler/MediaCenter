@@ -160,9 +160,9 @@ namespace MediaCenter.ViewModels
                 if (Bass.Init())
                 {
                     //musicStream = Bass.CreateStream("test.mp3");
-                    musicStream = Bass.CreateStream("http://mp3-live.swr.de/swr1bw_m.m3u",
+                    musicStream = Bass.CreateStream("http://www.radioparadise.com/m3u/mp3-128.m3u",
                         0,
-                        BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree | BassFlags.AacStereo,
+                        BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree,
                         (buffer, length, user) => { },
                         new IntPtr(r)
                     );
