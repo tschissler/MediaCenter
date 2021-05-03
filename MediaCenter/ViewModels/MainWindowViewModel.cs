@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using MediaCenter.Managers;
+using MediaCenter.Models;
 using ReactiveUI;
 
 namespace MediaCenter.ViewModels
@@ -12,41 +15,21 @@ namespace MediaCenter.ViewModels
     public class MainWindowViewModel : ReactiveObject
     {
         private Bitmap currentImage;
-        private int intervalMilliSec;
-        private bool isRunning;
-        private bool isFullScreen;
         private Window parentWindow;
-        private double commandBarOpacity;
         private Random rnd = new Random();
+        
+        private ConfigurationSettings configSettings = new ConfigurationSettings();
+
+        public ConfigurationSettings ConfigSettings
+        {
+            get => configSettings;
+            set => configSettings = value;
+        }
 
         public Bitmap CurrentImage
         {
             get => currentImage;
             set => this.RaiseAndSetIfChanged(ref currentImage, value);
-        }
-
-        public double CommandBarOpacity
-        {
-            get => commandBarOpacity;
-            set => this.RaiseAndSetIfChanged(ref commandBarOpacity, value);
-        }
-
-        public bool IsRunning
-        {
-            get => isRunning;
-            set => this.RaiseAndSetIfChanged(ref isRunning, value);
-        }
-
-        public bool IsFullScreen
-        {
-            get => isFullScreen;
-            set => this.RaiseAndSetIfChanged(ref isFullScreen, value);
-        }
-
-        public string ImagesRootPath
-        {
-            get;
-            set;
         }
 
         public List<string> AllDirectories { get; set; }
@@ -55,78 +38,112 @@ namespace MediaCenter.ViewModels
 
         public int IntervalMilliSec
         {
-            get => intervalMilliSec;
+            get => configSettings.RefreshInterval;
             set
             {
-                intervalMilliSec = value;
-                Timer.Interval = intervalMilliSec;
-                this.RaiseAndSetIfChanged(ref intervalMilliSec, value);
+                configSettings.RefreshInterval = value;
+                Timer.Interval = configSettings.RefreshInterval;
+                SaveSettings();
             }
         }
 
         public MainWindowViewModel(Window parentWindow)
         {
             this.parentWindow = parentWindow;
-            commandBarOpacity = 0.8;
-            intervalMilliSec = 2000;
+            configSettings = ConfigurationSettingsManager.ReadLastSettings();
+            if (configSettings == null)
+            {
+                configSettings = new ConfigurationSettings();
+                configSettings.RefreshInterval = 5000;
+                configSettings.CommandBarOpacity = 0.8;
+            }
+
             AllDirectories = new List<string>();
             Timer = new Timer(IntervalMilliSec);
             Timer.AutoReset = true;
             Timer.Enabled = true;
             Timer.Elapsed += Timer_Elapsed;
             Timer.Stop();
+
+            UpdateFullScreen();
+            UpdateIsRunning();
+
         }
 
-        public async void StartSlideShow()
+        public async Task SaveSettings()
         {
-            if (!isRunning)
+            ConfigurationSettingsManager.WriteCurrentConfiguration(configSettings);
+        }
+
+        public async void ToggleIsRunning()
+        {
+            if (!configSettings.IsRunning)
             {
                 var dialog = new OpenFolderDialog();
-                dialog.Directory = ImagesRootPath;
+                dialog.Directory = configSettings.ImagesRootPath;
                 var result = await dialog.ShowAsync(parentWindow);
                 if (!String.IsNullOrEmpty(result))
                 {
-                    ImagesRootPath = result;
+                    configSettings.ImagesRootPath = result;
+                    SaveSettings();
                 }
+                configSettings.IsRunning = true;
+            }
+            else
+            {
+                configSettings.IsRunning = false;
+            }
 
+            UpdateIsRunning();
+            SaveSettings();
+        }
+
+        public async void UpdateIsRunning()
+        {
+            if (configSettings.IsRunning)
+            {
                 AllDirectories = new List<string>();
-                ReadAllDirectories(ImagesRootPath);
+                ReadAllDirectories(configSettings.ImagesRootPath);
 
                 GetRandomImage();
                 Timer.Start();
-                IsRunning = true;
             }
             else
             {
                 Timer.Stop();
-                IsRunning = false;
             }
         }
 
         public void ToggleCommandBar()
         {
-            if (CommandBarOpacity > 0)
+            if (configSettings.CommandBarOpacity > 0)
             {
-                CommandBarOpacity = 0;
+                configSettings.CommandBarOpacity = 0;
             }
             else
             {
-                CommandBarOpacity = 0.8;
+                configSettings.CommandBarOpacity = 0.8;
             }
+            SaveSettings();
         }
 
         public void ToggleFullScreen()
         {
-            if (IsFullScreen)
+            configSettings.IsFullScreen = !configSettings.IsFullScreen;
+            UpdateFullScreen();
+            SaveSettings();
+        }
+
+        private void UpdateFullScreen()
+        {
+            if (!configSettings.IsFullScreen)
             {
                 parentWindow.WindowState = WindowState.Normal;
-                IsFullScreen = false;
             }
             else
             {
                 parentWindow.WindowState = WindowState.Maximized;
                 parentWindow.WindowState = WindowState.FullScreen;
-                IsFullScreen = true;
             }
         }
 

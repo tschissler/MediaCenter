@@ -27,11 +27,11 @@
 		            Orientation="Horizontal"
 		            Background="Gray"
 		            ZIndex="999"
-		            Opacity="{Binding CommandBarOpacity}">
-			<Button Width="160" Command="{Binding StartSlideShow}">
+		            Opacity="{Binding ConfigSettings.CommandBarOpacity}">
+			<Button Width="160" Command="{Binding ToggleIsRunning}">
 				<Panel>
-					<Image Source="/Assets/Media-Play.png" IsVisible="{Binding !IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-					<Image Source="/Assets/Media-Pause.png" IsVisible="{Binding IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/Media-Play.png" IsVisible="{Binding !ConfigSettings.IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/Media-Pause.png" IsVisible="{Binding ConfigSettings.IsRunning}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Panel>
 			</Button>
 			<Label Foreground="Silver">Anzeigedauer(ms): </Label>
@@ -42,8 +42,8 @@
 					Value="{Binding IntervalMilliSec}"></Slider>
 			<Button Width="160" Command="{Binding ToggleFullScreen}">
 				<Panel>
-					<Image Source="/Assets/FullScreen-start.png" IsVisible="{Binding !IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-					<Image Source="/Assets/FullScreen-end.png" IsVisible="{Binding IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/FullScreen-start.png" IsVisible="{Binding !ConfigSettings.IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/FullScreen-end.png" IsVisible="{Binding ConfigSettings.IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Panel>
 			</Button>
 		</StackPanel>
