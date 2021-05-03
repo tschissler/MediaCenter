@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
+using DynamicData.Tests;
+using ManagedBass;
 using MediaCenter.Managers;
 using MediaCenter.Models;
 using ReactiveUI;
+using Timer = System.Timers.Timer;
 
 namespace MediaCenter.ViewModels
 {
@@ -17,8 +21,10 @@ namespace MediaCenter.ViewModels
         private Bitmap currentImage;
         private Window parentWindow;
         private Random rnd = new Random();
-        
+        private int musicStream;
+
         private ConfigurationSettings configSettings = new ConfigurationSettings();
+        private bool isMusicPlaying;
 
         public ConfigurationSettings ConfigSettings
         {
@@ -30,6 +36,12 @@ namespace MediaCenter.ViewModels
         {
             get => currentImage;
             set => this.RaiseAndSetIfChanged(ref currentImage, value);
+        }
+
+        public bool IsMusicPlaying
+        {
+            get => isMusicPlaying;
+            set => this.RaiseAndSetIfChanged(ref isMusicPlaying, value);
         }
 
         public List<string> AllDirectories { get; set; }
@@ -134,6 +146,40 @@ namespace MediaCenter.ViewModels
             SaveSettings();
         }
 
+        public void ToggleMusic()
+        {
+            IsMusicPlaying = !IsMusicPlaying;
+            UpdateMusicPlaying();
+        }
+
+        private void UpdateMusicPlaying()
+        {
+            if (IsMusicPlaying)
+            {
+                if (Bass.Init())
+                {
+                    musicStream = Bass.CreateStream("test.mp3");
+                    //musicStream = Bass.CreateStream("https://swr-edge-2034-dus-lg-cdn.cast.addradio.de/swr/swr1/bw/aac/96/stream.aac", 
+                    //    0,
+                    //    BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree, (buffer, length, user) => { }
+                    //);
+
+                    if (musicStream != 0)
+                        Bass.ChannelPlay(musicStream); // Play the stream
+
+                    else throw new Exception($"Error playing music: {Bass.LastError}!");
+                }
+                else
+                {
+                    throw new Exception("Music Player BASS could not be initialized!");
+                }
+            }
+            else
+            {
+                Bass.StreamFree(musicStream);
+                Bass.Free();
+            }
+        }
         private void UpdateFullScreen()
         {
             if (!configSettings.IsFullScreen)

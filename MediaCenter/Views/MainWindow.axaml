@@ -46,6 +46,12 @@
 					<Image Source="/Assets/FullScreen-end.png" IsVisible="{Binding ConfigSettings.IsFullScreen}" VerticalAlignment="Center" HorizontalAlignment="Center" />
 				</Panel>
 			</Button>
+			<Button Width="160" Command="{Binding ToggleMusic}">
+				<Panel>
+					<Image Source="/Assets/Speaker-Mute.png" IsVisible="{Binding IsMusicPlaying}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Image Source="/Assets/Speaker-Play.png" IsVisible="{Binding !IsMusicPlaying}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+				</Panel>
+			</Button>
 		</StackPanel>
 		<Button
 			Command="{Binding ToggleCommandBar}"
