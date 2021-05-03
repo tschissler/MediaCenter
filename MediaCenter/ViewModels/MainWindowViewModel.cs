@@ -160,7 +160,7 @@ namespace MediaCenter.ViewModels
                 if (Bass.Init())
                 {
                     //musicStream = Bass.CreateStream("test.mp3");
-                    musicStream = Bass.CreateStream("http://www.radioparadise.com/m3u/mp3-128.m3u",
+                    musicStream = Bass.CreateStream("http://icecast.timlradio.co.uk/vr160.ogg",
                         0,
                         BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree,
                         (buffer, length, user) => { },
@@ -216,7 +216,7 @@ namespace MediaCenter.ViewModels
                     ReadAllDirectories(directory.FullName);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine($"Error while reading pictures from {path}");
             }
