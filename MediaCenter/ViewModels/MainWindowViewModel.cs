@@ -160,7 +160,7 @@ namespace MediaCenter.ViewModels
                 if (Bass.Init())
                 {
                     //musicStream = Bass.CreateStream("test.mp3");
-                    musicStream = Bass.CreateStream("http://icecast.timlradio.co.uk/vr160.ogg",
+                    musicStream = Bass.CreateStream("http://somafm.com/secretagent.pls",
                         0,
                         BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree,
                         (buffer, length, user) => { },
