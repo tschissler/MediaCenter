@@ -8,10 +8,11 @@ using System.Timers;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using DynamicData.Tests;
-using ManagedBass;
+using LibVLCSharp.Shared;
 using MediaCenter.Managers;
 using MediaCenter.Models;
 using ReactiveUI;
+using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
 using Timer = System.Timers.Timer;
 
 namespace MediaCenter.ViewModels
@@ -21,7 +22,7 @@ namespace MediaCenter.ViewModels
         private Bitmap currentImage;
         private Window parentWindow;
         private Random rnd = new Random();
-        private int musicStream;
+        private MediaPlayer player;
 
         private ConfigurationSettings configSettings = new ConfigurationSettings();
         private bool isMusicPlaying;
@@ -80,6 +81,8 @@ namespace MediaCenter.ViewModels
             UpdateFullScreen();
             UpdateIsRunning();
 
+            LibVLCSharp.Shared.Core.Initialize();
+            player = new MediaPlayer(new LibVLC());
         }
 
         public async Task SaveSettings()
@@ -154,33 +157,13 @@ namespace MediaCenter.ViewModels
 
         private void UpdateMusicPlaying()
         {
-            int r = 0;
             if (IsMusicPlaying)
             {
-                if (Bass.Init())
-                {
-                    //musicStream = Bass.CreateStream("test.mp3");
-                    musicStream = Bass.CreateStream("https://swr-edge-2034-dus-lg-cdn.cast.addradio.de/swr/swr1/bw/aac/96/stream.aac",
-                        0,
-                        BassFlags.StreamDownloadBlocks | BassFlags.StreamStatus | BassFlags.AutoFree,
-                        (buffer, length, user) => { },
-                        new IntPtr(r)
-                    );
-
-                    if (musicStream != 0)
-                        Bass.ChannelPlay(musicStream); // Play the stream
-
-                    else throw new Exception($"Error playing music: {Bass.LastError}!");
-                }
-                else
-                {
-                    throw new Exception("Music Player BASS could not be initialized!");
-                }
+                player.Play(new Media(new LibVLC(), new Uri("https://swr-edge-2034-dus-lg-cdn.cast.addradio.de/swr/swr1/bw/aac/96/stream.aac")));
             }
             else
             {
-                Bass.StreamFree(musicStream);
-                Bass.Free();
+                player.Stop();
             }
         }
         private void UpdateFullScreen()
