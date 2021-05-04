@@ -12,6 +12,7 @@
     <None Remove="Assets\FullScreen-start.png" />
     <None Remove="Assets\Media-Pause.png" />
     <None Remove="Assets\Media-Play.png" />
+    <None Remove="Assets\radiostations.json" />
     <None Remove="Assets\Test.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -28,12 +29,6 @@
     </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
-    <None Update="bass.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="libbass.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="test.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
