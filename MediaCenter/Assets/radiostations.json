@@ -8,5 +8,16 @@
     "Name": "B5 aktuell",
     "URL": "http://streams.br.de/b5aktuell_2.m3u",
     "LogoURL": "https://online-webradio.com/files/styles/80/public/logo/b5-aktuell.jpg"
+  },
+  {
+    "Name": "Donau 3 FM",
+    "URL": "http://server1.webradiostreaming.de:2640/",
+    "LogoURL": "https://static.radio.de/images/broadcasts/6e/e6/2376/4/c175.png"
+  },
+  {
+    "Name": "Die neue 107.7",
+    "URL": "https://dieneue1077-ais-edge-3001-fra-eco-cdn.cast.addradio.de/dieneue1077/simulcast/high/stream.mp3",
+    "LogoURL": "https://www.phonostar.de/images/auto_created/die_neue_1077_livesongs184x184.png"
   }
 ]
+
